@@ -1,0 +1,51 @@
+# Archivos binarios generados por `go build`
+/bin/
+/out/
+/*.exe
+/*.dll
+/*.so
+
+# Caché del módulo de Go
+/pkg/mod/
+/pkg/sumdb/
+
+# Archivos de compilación
+*.o
+*.a
+
+# Dependencias locales (opcional, si usas `go mod vendor`)
+/vendor/
+
+# Archivos generados temporalmente por el sistema
+Thumbs.db
+Desktop.ini
+
+# Archivos específicos de Windows
+*.lnk
+
+# Archivos de editor/IDE
+.idea/
+.vscode/
+*.swp
+
+# Archivos temporales y de registro
+*.tmp
+*.log
+*.test
+
+# Archivos de pruebas unitarias generados
+*.cover
+*.prof
+*.out
+
+# Archivos de Go generados automáticamente
+*.gen.go
+
+# Otros archivos innecesarios en Windows
+$RECYCLE.BIN/
+*.bak
+*.~*
+
+
+# scripts
+estudio.sql
