@@ -25,7 +25,7 @@ func main() {
 	r.Use(middleware.SetupCORS())
 
 	// Configurar las rutas
-	routes.SetupRoutes(r)
+	routes.SetupRoutes(r, db)
 
 	// Iniciar el servidor en el puerto 8080
 	r.Run(":8080")
