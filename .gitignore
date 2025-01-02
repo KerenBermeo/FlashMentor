@@ -49,3 +49,6 @@ $RECYCLE.BIN/
 
 # scripts
 estudio.sql
+
+# env
+.env

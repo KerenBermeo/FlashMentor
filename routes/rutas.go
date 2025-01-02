@@ -6,23 +6,11 @@ import (
 )
 
 func SetupRoutes(r *gin.Engine) {
-	// Grupo de rutas para preguntas abiertas
-	openQuestionsGroup := r.Group("/preguntas_abiertas")
+
+	QuestionsGroup := r.Group("/question")
 	{
-		openQuestionsGroup.GET("/", controllers.GetAllOpenQuestions)
-		openQuestionsGroup.POST("/", controllers.CreateOpenQuestion)
-		openQuestionsGroup.GET("/:id", controllers.GetOpenQuestionByID)
-		openQuestionsGroup.PUT("/:id", controllers.UpdateOpenQuestion)
-		openQuestionsGroup.DELETE("/:id", controllers.DeleteOpenQuestion)
+		QuestionsGroup.GET("/", controllers.GetQuestions())
+
 	}
 
-	// Grupo de rutas para preguntas cerradas
-	closedQuestionsGroup := r.Group("/preguntas_cerradas")
-	{
-		closedQuestionsGroup.GET("/", controllers.GetAllClosedQuestions)
-		closedQuestionsGroup.POST("/", controllers.CreateClosedQuestion)
-		closedQuestionsGroup.GET("/:id", controllers.GetClosedQuestionByID)
-		closedQuestionsGroup.PUT("/:id", controllers.UpdateClosedQuestion)
-		closedQuestionsGroup.DELETE("/:id", controllers.DeleteClosedQuestion)
-	}
 }
