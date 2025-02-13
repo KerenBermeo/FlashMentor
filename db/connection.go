@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/KerenBermeo/FlashMentor/models"
 	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -37,6 +38,14 @@ func ConnectionBD() (*gorm.DB, error) {
 	if err != nil {
 		return nil, fmt.Errorf("failed to connect to the database: %w", err)
 	}
+
+	// 🛠 Ejecutar migraciones automáticas
+	err = db.AutoMigrate(&models.Usuario{}, &models.Temas{}, &models.Niveles{}, &models.PreguntasAbiertas{}, &models.PreguntasCerradas{}, &models.Caja{}) // Agrega aquí todos tus modelos
+	if err != nil {
+		log.Fatal("Error en la migración:", err)
+	}
+
+	log.Println("Migraciones ejecutadas correctamente ✅")
 
 	return db, nil
 }
