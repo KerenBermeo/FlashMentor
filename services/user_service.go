@@ -25,6 +25,12 @@ func (s *UserService) RegisterUser(user *models.User) error {
 		return err
 	}
 
+	// Check if the email already exists
+	existingUser, _ := s.repo.GetByEmail(user.Email)
+	if existingUser != nil {
+		return errors.New("email already exists")
+	}
+
 	// Encrypt the password before saving
 	hashedPassword, err := s.encryptPassword(user.PasswordHash)
 	if err != nil {
