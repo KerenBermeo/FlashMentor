@@ -40,7 +40,7 @@ func ConnectionBD() (*gorm.DB, error) {
 	}
 
 	// 🛠 Ejecutar migraciones automáticas
-	err = db.AutoMigrate(&models.Usuario{}, &models.Temas{}, &models.Niveles{}, &models.PreguntasAbiertas{}, &models.PreguntasCerradas{}, &models.Caja{}) // Agrega aquí todos tus modelos
+	err = db.AutoMigrate(&models.User{}, &models.Topics{}, &models.Levels{}, &models.OpenQuestions{}, &models.ClosedQuestions{}, &models.Boxes{})
 	if err != nil {
 		log.Fatal("Error en la migración:", err)
 	}

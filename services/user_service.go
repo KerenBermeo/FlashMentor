@@ -8,81 +8,81 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// Servicio para Usuarios
-type UsuarioService struct {
-	repo *repositories.UsuarioRepository
+// User Service
+type UserService struct {
+	repo *repositories.UserRepo
 }
 
 // Constructor
-func NewUsuarioService(repo *repositories.UsuarioRepository) *UsuarioService {
-	return &UsuarioService{repo: repo}
+func NewUserService(repo *repositories.UserRepo) *UserService {
+	return &UserService{repo: repo}
 }
 
-// Métodos específicos de usuario
-func (s *UsuarioService) RegistrarUsuario(usuario *models.Usuario) error {
-	// Validar el usuario antes de registrarlo
-	if err := s.validarUsuario(usuario); err != nil {
+// Specific user methods
+func (s *UserService) RegisterUser(user *models.User) error {
+	// Validate the user before registering
+	if err := s.validateUser(user); err != nil {
 		return err
 	}
 
-	// Encriptar la contraseña antes de guardarla
-	hashedPassword, err := s.encriptarContraseña(usuario.PasswordHash)
+	// Encrypt the password before saving
+	hashedPassword, err := s.encryptPassword(user.PasswordHash)
 	if err != nil {
 		return err
 	}
-	usuario.PasswordHash = string(hashedPassword)
+	user.PasswordHash = string(hashedPassword)
 
-	return s.repo.Create(usuario)
+	return s.repo.Create(user)
 }
 
-func (s *UsuarioService) ObtenerUsuario(id uint) (*models.Usuario, error) {
+func (s *UserService) GetUser(id uint) (*models.User, error) {
 	return s.repo.GetByID(id)
 }
 
-func (s *UsuarioService) ObtenerTodosLosUsuarios() ([]models.Usuario, error) {
+func (s *UserService) GetAllUsers() ([]models.User, error) {
 	return s.repo.GetAll()
 }
 
-func (s *UsuarioService) ActualizarUsuario(usuario *models.Usuario) error {
-	// Validar el usuario antes de actualizarlo
-	if err := s.validarUsuario(usuario); err != nil {
+func (s *UserService) UpdateUser(user *models.User) error {
+	// Validate the user before updating
+	if err := s.validateUser(user); err != nil {
 		return err
 	}
 
-	// Encriptar la contraseña antes de actualizarla
-	hashedPassword, err := s.encriptarContraseña(usuario.PasswordHash)
+	// Encrypt the password before updating
+	hashedPassword, err := s.encryptPassword(user.PasswordHash)
 	if err != nil {
 		return err
 	}
-	usuario.PasswordHash = string(hashedPassword)
+	user.PasswordHash = string(hashedPassword)
 
-	return s.repo.Update(usuario)
+	return s.repo.Update(user)
 }
 
-func (s *UsuarioService) EliminarUsuario(id uint) error {
+func (s *UserService) DeleteUser(id uint) error {
 	return s.repo.Delete(id)
 }
 
-// validarUsuario realiza validaciones básicas en el usuario
-func (s *UsuarioService) validarUsuario(usuario *models.Usuario) error {
-	if usuario.Nombre == "" {
-		return errors.New("el nombre del usuario es requerido")
+// validateUser performs basic user validations
+func (s *UserService) validateUser(user *models.User) error {
+	if user.Name == "" {
+		return errors.New("user name is required")
 	}
-	if usuario.Correo == "" {
-		return errors.New("el email del usuario es requerido")
+	if user.Email == "" {
+		return errors.New("user email is required")
 	}
-	if usuario.PasswordHash == "" {
-		return errors.New("la contraseña del usuario es requerida")
+	if user.PasswordHash == "" {
+		return errors.New("user password is required")
 	}
 	return nil
 }
 
-// encriptarContraseña encripta la contraseña del usuario
-func (s *UsuarioService) encriptarContraseña(password string) ([]byte, error) {
+// encryptPassword encrypts the user's password
+func (s *UserService) encryptPassword(password string) ([]byte, error) {
 	return bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 }
 
-// VerificarContraseña verifica si la contraseña proporcionada coincide con la contraseña encriptada
-func (s *UsuarioService) VerificarContraseña(hashedPassword, password string) error {
+// VerifyPassword checks if the provided password matches the encrypted password
+func (s *UserService) VerifyPassword(hashedPassword, password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(password))
 }
